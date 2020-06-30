@@ -14671,6 +14671,8 @@ a {
   margin-top: 80px;
 }
 
+
+
 @media screen and (max-width: 768px) {
   .wrapper-container {
     min-height: 650px;
@@ -14744,6 +14746,8 @@ a {
 
   .ms--images .ms-slide {
     margin: 0 100px;
+    width: 500px;
+    height: 300px;
   }
 
   .ms--images .ms-slide__image-container {
