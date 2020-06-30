@@ -7,6 +7,7 @@ Author URL: http://w3layouts.com
 
 <head>
     <!-- Required meta tags -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -70,26 +71,52 @@ Author URL: http://w3layouts.com
                         <a href="https://twitter.com/kushagra_roy?s=09" class="text-primary">twitter</a>
                         or <a href="https://www.linkedin.com/in/kushagra-roy-961654172" class="text-primary">linkedin</a>.</h3>
                 </div>
-                <form action="https://sendmail.w3layouts.com/submitForm" method="post" class="">
+                <form id="emailForm"  method="post" class="">
                     <div class="main-input">
-                        <input type="text" name="w3lName" placeholder="Enter your name" class="contact-input"
+                        <input name="from_name" type="text" name="w3lName" placeholder="Enter your name" class="contact-input"
                             required="" />
-                        <input type="email" name="w3lSender" placeholder="Enter your mail" class="contact-input"
+                        <input name="reply_to"  type="email" name="w3lSender" placeholder="Enter your mail" class="contact-input"
                             required="" />
-                        <input type="number" name="w3lPhone" placeholder="Your phone number" class="contact-input"
+                        <input name="phone_number" type="number" name="w3lPhone" placeholder="Your phone number" class="contact-input"
                             required="" />
-                        <textarea class="contact-textarea contact-input" name="w3lMessage"
+                        <textarea name="message" class="contact-textarea contact-input" name="w3lMessage"
                             placeholder="Enter your message" required=""></textarea>
                     </div>
                     <div class="text-right">
-                        <button class="btn-primary btn primary-btn-style">Send</button>
+                        <button id="buttonSend" class="btn-primary btn primary-btn-style" type="submit">Send</button>
                     </div>
                 </form>
             </div>
         </div>
     </section>
     <!-- //contact form -->
+    <script>
+    $('#emailForm').on('submit', function(event)
+    {
+    event.preventDefault(); // prevent reload
+    
+    document.getElementById("buttonSend").innerText = "Sending ...";
 
+    var formData = new FormData(this);
+    formData.append('service_id', 'gmail');
+    formData.append('template_id', 'roy_mail');
+    formData.append('user_id', 'user_oS6jI5YrIHumLku8kKJ1t');
+ 
+    $.ajax('https://api.emailjs.com/api/v1.0/email/send-form', {
+        type: 'POST',
+        data: formData,
+        contentType: false, // auto-detection
+        processData: false // no need to parse formData to string
+    }).done(function() {
+        alert('Your mail is sent!');
+        document.getElementById("emailForm").reset();
+        document.getElementById("buttonSend").innerText = "Send";
+    }).fail(function(error) {
+        alert('Oops... Something Went Wrong. Please refresh the page and try again');
+        document.getElementById("buttonSend").innerText = "Send";
+    });
+});
+    </script>
     <!-- Footer -->
     <section class="w3l-footers-1">
         <div class="footer bg-secondary">
@@ -120,6 +147,17 @@ Author URL: http://w3layouts.com
     <button onclick="topFunction()" id="movetop" class="bg-primary" title="Go to top">
         <span class="fa fa-angle-up"></span>
     </button>
+
+    <script type="text/javascript" src="assets/js/emailer.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("user_oS6jI5YrIHumLku8kKJ1t");
+        })();
+    </script>
+
     <script>
         // When the user scrolls down 20px from the top of the document, show the button
         window.onscroll = function () {
@@ -143,7 +181,7 @@ Author URL: http://w3layouts.com
     <!-- /move top -->
 
     <!-- common jquery -->
-    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    
     <!-- //common jquery -->
 
     <!-- disable body scroll which navbar is in active -->
